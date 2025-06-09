@@ -7,7 +7,7 @@ const getAicArtworksController = async (req: Request, res: Response) => {
         const data = await getAicArtworksByPage(page)
         res.json(data)
     } catch (err) {
-        res.status(500).json({ error: "Failed to fetch MET artworks" })
+        res.status(500).json({ error: "Failed to fetch Aic artworks" })
     }
 }
 
