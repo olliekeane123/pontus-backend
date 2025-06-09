@@ -3,7 +3,7 @@ import axios, {
     type AxiosInstance,
     type AxiosError,
 } from "axios"
-import { ApiError } from "../../types"
+import { ApiError } from "../types"
 
 const apiClient: AxiosInstance = axios.create({
     timeout: 50000,

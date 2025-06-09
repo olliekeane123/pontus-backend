@@ -1,5 +1,5 @@
 import { SeedData } from "./../types"
-import db from "../db/connection"
+import db from "../app/db/connection"
 import format from "pg-format"
 
 const seed = async ({ users }: SeedData) => {

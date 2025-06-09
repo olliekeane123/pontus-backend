@@ -1,4 +1,4 @@
-import { TransformedArtwork } from "../../../types"
+import { TransformedArtwork } from "../../types"
 import apiClient from "../../lib/apiClient"
 
 const AIC_BASE_URL = "https://api.artic.edu/api/v1/artworks"

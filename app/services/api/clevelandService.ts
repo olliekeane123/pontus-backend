@@ -1,4 +1,4 @@
-import { TransformedArtwork } from "../../../types"
+import { TransformedArtwork } from "../../types"
 import apiClient from "../../lib/apiClient"
 
 const CLEVELAND_BASE_URL =

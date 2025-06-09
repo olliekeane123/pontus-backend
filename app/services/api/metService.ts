@@ -1,4 +1,4 @@
-import { RawMetArtwork, TransformedArtwork } from "../../../types"
+import { RawMetArtwork, TransformedArtwork } from "../../types"
 import apiClient from "../../lib/apiClient"
 
 const MET_BASE_URL = "https://collectionapi.metmuseum.org/public/collection/v1/"

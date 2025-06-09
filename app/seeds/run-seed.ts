@@ -1,6 +1,6 @@
-import * as devData from '../data/dev-data/index'
-import seed from "./seed";
-import db from "../db/connection";
+import * as devData from "../app/data/dev-data/index"
+import seed from "./seed"
+import db from "../app/db/connection"
 
 const runSeed = async () => {
     try {
@@ -11,4 +11,4 @@ const runSeed = async () => {
     }
 }
 
-runSeed();
+runSeed()
