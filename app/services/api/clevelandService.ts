@@ -10,21 +10,30 @@ export const getClevelandArtworksByPage = async (
 ) => {
     const url = buildClevelandUrl(page, PAGE_LIMIT, searchTerm);
 
-    const response = await apiClient.get(url);
+    try {
+    
+        console.log(`[Cleveland Service] Attempting to fetch from: ${url}`);
+        const response = await apiClient.get(url);
+    
+        console.log(`[Cleveland Service] Successfully fetched from: ${url}`);
 
-    const records = response.data.data || [];
-    const totalArtworks = response.data.info.total || records.length;
+        const records = response.data.data || [];
+        const totalArtworks = response.data.info.total || records.length;
 
-    const artworks: TransformedArtwork[] = records.map(
-        transformClevelandArtwork
-    );
+        const artworks: TransformedArtwork[] = records.map(
+            transformClevelandArtwork
+        );
 
-    return {
-        artworks,
-        page,
-        totalPages: Math.ceil(totalArtworks / PAGE_LIMIT),
-        totalArtworks,
-    };
+        return {
+            artworks,
+            page,
+            totalPages: Math.ceil(totalArtworks / PAGE_LIMIT),
+            totalArtworks,
+        };
+    } catch (error: any) { 
+        console.error(`[Cleveland Service] Error fetching from ${url}:`, error.response?.data || error.message);
+        throw error; 
+    }
 };
 
 const buildClevelandUrl = (

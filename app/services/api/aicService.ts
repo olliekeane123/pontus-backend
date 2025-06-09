@@ -29,22 +29,32 @@ export const getAicArtworksByPage = async (
         params.limit = PAGE_LIMIT;
     }
 
-    const response = await apiClient.get(baseUrl, {
-        params,
-    });
+    const fullUrl = `${baseUrl}?${new URLSearchParams(params).toString()}`;
 
-    const { pagination, data } = response.data;
+    try {
+      
+        console.log(`[AIC Service] Attempting to fetch from: ${fullUrl}`);
+        const response = await apiClient.get(fullUrl);
+       
+        console.log(`[AIC Service] Successfully fetched from: ${fullUrl}`);
 
-    const artworks: TransformedArtwork[] = data.map((artwork: any) =>
-        transformAicArtwork(artwork)
-    );
+        const { pagination, data } = response.data;
 
-    return {
-        artworks,
-        page: pagination.current_page,
-        totalPages: pagination.total_pages,
-        totalArtworks: pagination.total,
-    };
+        const artworks: TransformedArtwork[] = data.map((artwork: any) =>
+            transformAicArtwork(artwork)
+        );
+
+        return {
+            artworks,
+            page: pagination.current_page,
+            totalPages: pagination.total_pages,
+            totalArtworks: pagination.total,
+        };
+    } catch (error: any) { 
+    
+        console.error(`[AIC Service] Error fetching from ${fullUrl}:`, error.response?.data || error.message);
+        throw error; 
+    }
 };
 
 const transformAicArtwork = (artwork: any): TransformedArtwork => {
