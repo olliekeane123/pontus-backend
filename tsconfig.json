@@ -114,8 +114,8 @@
     "app/**/*",
     "db/**/*",
     "seeds/**/*",
-    "data/**/*"
+    "data/**/*",
+    "app/server.ts"
   ],
   "exclude": ["node_modules", "dist"]
-
 }
