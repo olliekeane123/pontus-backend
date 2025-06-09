@@ -1,0 +1,33 @@
+{
+    "name": "pontus-backend",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "setup-db": "psql -f ./db/setup.sql",
+        "seed": "tsx ./seeds/run-seed.ts",
+        "test": "jest",
+        "dev": "tsx watch app/server.ts",
+        "build": "tsc",
+        "start": "node build/server.js" 
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "axios": "^1.9.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.5.0",
+        "express": "^5.1.0",
+        "pg": "^8.16.0",
+        "pg-format": "^1.0.4",
+        "tsx": "^4.19.4",
+        "typescript": "^5.8.3"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.2",
+        "@types/pg": "^8.15.4",
+        "@types/pg-format": "^1.0.5"
+    }
+}
