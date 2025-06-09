@@ -1,60 +1,66 @@
-import { TransformedArtwork } from "../../types"
-import apiClient from "../../lib/apiClient"
+// Example if you have a harvardService.ts
+import { TransformedArtwork } from "../../types";
+import apiClient from "../../lib/apiClient";
 
-const HARVARD_BASE_URL = "https://api.harvardartmuseums.org/object"
-const HARVARD_API_KEY = process.env.HARVARD_API_KEY || ""
-const PAGE_LIMIT = 50
+const HARVARD_BASE_URL = "https://api.harvardartmuseums.org/object";
+const HARVARD_API_KEY = process.env.HARVARD_API_KEY; // Ensure you have this set in your .env
 
-const buildHarvardUrl = (page: number) => {
-    const query = new URLSearchParams({
+const PAGE_LIMIT = 50;
+
+export const getHarvardArtworksByPage = async (
+    page: number = 1,
+    searchTerm: string = "" // Search term will likely be empty here from frontend
+): Promise<{
+    artworks: TransformedArtwork[];
+    totalPages: number;
+    page: number;
+    totalArtworks: number;
+}> => {
+    if (!HARVARD_API_KEY) {
+        console.error("Harvard API Key is not defined.");
+        throw new Error("Harvard API Key is missing. Check your environment variables.");
+    }
+
+    const params = new URLSearchParams({
         apikey: HARVARD_API_KEY,
         page: page.toString(),
-        size: PAGE_LIMIT.toString(),
-        hasimage: "1",
-        sort: "datebegin",
-        datebegin: "1860",
-        dateend: "1980",
-        classification: "Paintings", // optional filter to help precision
-        fields: "id,title,dated,primaryimageurl,people,datebegin,dateend",
-    })
+        size: PAGE_LIMIT.toString(), // Harvard uses 'size' for limit
+        hasimage: "1", 
+    });
 
-    return `${HARVARD_BASE_URL}?${query.toString()}`
-}
+    const url = `${HARVARD_BASE_URL}?${params.toString()}`;
 
-export const getHarvardArtworksByPage = async (page: number = 1) => {
-    try {
-        const response = await apiClient.get(buildHarvardUrl(page))
+    const response = await apiClient.get(url);
 
-        const { info, records } = response.data
+    const records = response.data.records || []; // Harvard uses 'records' for data
+    const totalArtworks = response.data.info?.totalrecords || 0; // Harvard uses 'info.totalrecords'
+    const totalPages = response.data.info?.pages || 1;
 
-        const artworks: TransformedArtwork[] = records.map((record: any) =>
-            transformHarvardArtwork(record)
-        )
-
-        return {
-            artworks,
-            page: info.page,
-            totalPages: info.pages,
-            totalArtworks: info.totalrecords,
-        }
-    } catch (error: any) {
-        console.error("Harvard API Error:", error?.response?.data || error)
-        throw error
-    }
-}
-
-const transformHarvardArtwork = (artwork: any): TransformedArtwork => {
-    const person = artwork.people?.[0] || {}
+    const artworks: TransformedArtwork[] = records.map((record: any) =>
+        transformHarvardArtwork(record)
+    );
 
     return {
-        id: artwork.id,
+        artworks,
+        page: page,
+        totalPages: totalPages,
+        totalArtworks: totalArtworks,
+    };
+};
+
+const transformHarvardArtwork = (record: any): TransformedArtwork => {
+    const imageUrl = record.primaryimageurl || record.images?.[0]?.baseimageurl || "/placeholder.png";
+    const artist = record.people?.[0]?.displayname || "Unknown";
+
+    return {
+        id: record.id,
         source: "harvard",
-        title: artwork.title || "Untitled",
-        dateStart: artwork.datebegin || 0,
-        dateEnd: artwork.dateend || 0,
-        imageUrl: artwork.primaryimageurl || "/placeholder.png",
-        artistName: person.name || "Unknown",
-        artistBirthDate: 0, // not always available
-        artistDeathDate: null,
-    }
-}
+        title: record.title || "Untitled",
+        dateStart: record.dated || record.datebegin || 0, // Harvard has various date fields
+        dateEnd: record.dateended || 0,
+        imageUrl: imageUrl,
+        artistName: artist,
+        artistBirthDate: record.people?.[0]?.birthyear || 0,
+        artistDeathDate: record.people?.[0]?.deathyear || null,
+    };
+};
