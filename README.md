@@ -1,6 +1,6 @@
 # Pontus Backend
 
-This is the **backend API** for [Pontus](https://github.com/yourusername/pontus-frontend), a frontend application for browsing and discovering artworks from two major museum collections:
+This is the **backend API** for [Pontus](https://github.com/olliekeane123/pontus-frontend), a frontend application for browsing and discovering artworks from two major museum collections:
 
 -   The Art Institute of Chicago (AIC)
 -   The Cleveland Museum of Art (CMA)
@@ -24,7 +24,7 @@ The backend acts as a middle layer between the frontend and these third-party AP
 
 1.  **Clone the repository**
 
-    git clone https://github.com/yourusername/pontus-backend.git
+    git clone https://github.com/olliekeane123/pontus-backend
     cd pontus-backend
 
 2.  **Install dependencies**
