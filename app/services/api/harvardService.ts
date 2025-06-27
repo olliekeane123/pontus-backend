@@ -3,13 +3,13 @@ import { TransformedArtwork } from "../../types";
 import apiClient from "../../lib/apiClient";
 
 const HARVARD_BASE_URL = "https://api.harvardartmuseums.org/object";
-const HARVARD_API_KEY = process.env.HARVARD_API_KEY; // Ensure you have this set in your .env
+const HARVARD_API_KEY = process.env.HARVARD_API_KEY;
 
 const PAGE_LIMIT = 50;
 
 export const getHarvardArtworksByPage = async (
     page: number = 1,
-    searchTerm: string = "" // Search term will likely be empty here from frontend
+    searchTerm: string = ""
 ): Promise<{
     artworks: TransformedArtwork[];
     totalPages: number;

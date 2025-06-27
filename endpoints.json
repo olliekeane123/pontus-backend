@@ -11,6 +11,48 @@
                 { "username": "bob", "password": "pass456" },
                 { "username": "mikela", "password": "pass789" }
             ]
-        }
+        },
+        "notes": "This endpoint is not used in production or in conjunction with the frontend of Pontus and is therefore not currently supported."  
+    },
+    "GET /api/artworks/:source": {
+        "description": "serves an array of artworks from the specified museum source",
+        "parameters": [
+            {
+                "name": ":source",
+                "type": "string",
+                "description": "The museum source (e.g., 'aic', 'cleveland')"
+            }
+        ],
+        "queries": [
+            {
+                "name": "page",
+                "type": "number",
+                "description": "The page number for pagination (defaults to 1)"
+            },
+            {
+                "name": "q",
+                "type": "string",
+                "description": "A search term to filter artworks (optional)"
+            }
+        ],
+        "exampleResponse": {
+            "artworks": [
+                {
+                    "id": "123",
+                    "source": "aic",
+                    "title": "Artwork Title",
+                    "dateStart": 1880,
+                    "dateEnd": 1881,
+                    "imageUrl": "https://example.com/image.jpg",
+                    "artistName": "Artist Name",
+                    "artistBirthDate": 1840,
+                    "artistDeathDate": 1920
+                }
+            ],
+            "page": 1,
+            "totalPages": 50,
+            "totalArtworks": 2500
+        },
+        "notes": "The /api/artworks endpoint on its own (without a specified source) does not return any data. Always provide a :source parameter. Currently supported sources include 'aic' (Art Institute of Chicago) and 'cleveland' (Cleveland Museum of Art)."
     }
 }
