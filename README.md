@@ -130,7 +130,7 @@ The following scripts exist but are **not required** unless you extend the proje
 
 ## 🔗 Related Projects
 
--   [Pontus Frontend](https://github.com/yourusername/pontus-frontend) – The frontend interface that consumes this API.
+-   [Pontus Frontend](https://github.com/olliekeane123/pontus-frontend) – The frontend interface that consumes this API.
 
 ---
 
